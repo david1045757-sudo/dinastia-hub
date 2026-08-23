@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_authenticated/perfil")({
 });
 
 function ProfilePage() {
-  const { user, profile, rank, isStaff, refreshProfile } = useAuth();
+  const { user, profile, rank, isStaff, refresh } = useAuth();
   const [bio, setBio] = useState("");
   const [avatar, setAvatar] = useState("");
   const [busy, setBusy] = useState(false);
@@ -82,7 +82,7 @@ function ProfilePage() {
       return;
     }
     toast.success("Perfil actualizado.");
-    await refreshProfile();
+    await refresh();
   }
 
   return (
