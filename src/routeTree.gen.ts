@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as ServidorRouteImport } from './routes/servidor'
+import { Route as SoporteRouteImport } from './routes/soporte'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const ServidorRoute = ServidorRouteImport.update({
   path: '/servidor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SoporteRoute = SoporteRouteImport.update({
+  id: '/soporte',
+  path: '/soporte',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/noticias' | '/servidor'
+  fullPaths: '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/noticias' | '/servidor'
-  id: '__root__' | '/' | '/auth' | '/noticias' | '/servidor'
+  to: '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
+  id: '__root__' | '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   NoticiasRoute: typeof NoticiasRoute
   ServidorRoute: typeof ServidorRoute
+  SoporteRoute: typeof SoporteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServidorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/soporte': {
+      id: '/soporte'
+      path: '/soporte'
+      fullPath: '/soporte'
+      preLoaderRoute: typeof SoporteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   NoticiasRoute: NoticiasRoute,
   ServidorRoute: ServidorRoute,
+  SoporteRoute: SoporteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
