@@ -10,14 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as ServidorRouteImport } from './routes/servidor'
 import { Route as SoporteRouteImport } from './routes/soporte'
+import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -40,6 +46,12 @@ const SoporteRoute = SoporteRouteImport.update({
   path: '/soporte',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMisTicketsIndexRoute =
+  AuthenticatedMisTicketsIndexRouteImport.update({
+    id: '/mis-tickets/',
+    path: '/mis-tickets/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,25 +67,38 @@ export interface FileRoutesByTo {
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
+  fullPaths:
+    '/' | '/auth' | '/noticias' | '/servidor' | '/soporte' | '/mis-tickets/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
-  id: '__root__' | '/' | '/auth' | '/noticias' | '/servidor' | '/soporte'
+  to: '/' | '/auth' | '/noticias' | '/servidor' | '/soporte' | '/mis-tickets'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/noticias'
+    | '/servidor'
+    | '/soporte'
+    | '/_authenticated/mis-tickets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   NoticiasRoute: typeof NoticiasRoute
   ServidorRoute: typeof ServidorRoute
@@ -86,6 +112,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -116,11 +149,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoporteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/mis-tickets/': {
+      id: '/_authenticated/mis-tickets/'
+      path: '/mis-tickets'
+      fullPath: '/mis-tickets/'
+      preLoaderRoute: typeof AuthenticatedMisTicketsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   NoticiasRoute: NoticiasRoute,
   ServidorRoute: ServidorRoute,
