@@ -20,6 +20,7 @@ import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
 import { Route as AuthenticatedStaffTicketsRouteImport } from './routes/_authenticated/staff.tickets'
+import { Route as AuthenticatedStaffTicketsIdRouteImport } from './routes/_authenticated/staff.tickets.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -79,6 +80,12 @@ const AuthenticatedStaffTicketsRoute =
     path: '/staff/tickets',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStaffTicketsIdRoute =
+  AuthenticatedStaffTicketsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedStaffTicketsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,8 +96,9 @@ export interface FileRoutesByFullPath {
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
-  '/staff/tickets': typeof AuthenticatedStaffTicketsRoute
+  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
+  '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -101,8 +109,9 @@ export interface FileRoutesByTo {
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
-  '/staff/tickets': typeof AuthenticatedStaffTicketsRoute
+  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
+  '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,8 +124,9 @@ export interface FileRoutesById {
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
-  '/_authenticated/staff/tickets': typeof AuthenticatedStaffTicketsRoute
+  '/_authenticated/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
+  '/_authenticated/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/mis-tickets/$id'
     | '/staff/tickets'
     | '/mis-tickets/'
+    | '/staff/tickets/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/mis-tickets/$id'
     | '/staff/tickets'
     | '/mis-tickets'
+    | '/staff/tickets/$id'
   id:
     | '__root__'
     | '/'
@@ -156,6 +168,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mis-tickets/$id'
     | '/_authenticated/staff/tickets'
     | '/_authenticated/mis-tickets/'
+    | '/_authenticated/staff/tickets/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,14 +259,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffTicketsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/staff/tickets/$id': {
+      id: '/_authenticated/staff/tickets/$id'
+      path: '/$id'
+      fullPath: '/staff/tickets/$id'
+      preLoaderRoute: typeof AuthenticatedStaffTicketsIdRouteImport
+      parentRoute: typeof AuthenticatedStaffTicketsRoute
+    }
   }
 }
+
+interface AuthenticatedStaffTicketsRouteChildren {
+  AuthenticatedStaffTicketsIdRoute: typeof AuthenticatedStaffTicketsIdRoute
+}
+
+const AuthenticatedStaffTicketsRouteChildren: AuthenticatedStaffTicketsRouteChildren =
+  {
+    AuthenticatedStaffTicketsIdRoute: AuthenticatedStaffTicketsIdRoute,
+  }
+
+const AuthenticatedStaffTicketsRouteWithChildren =
+  AuthenticatedStaffTicketsRoute._addFileChildren(
+    AuthenticatedStaffTicketsRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
-  AuthenticatedStaffTicketsRoute: typeof AuthenticatedStaffTicketsRoute
+  AuthenticatedStaffTicketsRoute: typeof AuthenticatedStaffTicketsRouteWithChildren
   AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
 }
 
@@ -261,7 +295,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
-  AuthenticatedStaffTicketsRoute: AuthenticatedStaffTicketsRoute,
+  AuthenticatedStaffTicketsRoute: AuthenticatedStaffTicketsRouteWithChildren,
   AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
 }
 
