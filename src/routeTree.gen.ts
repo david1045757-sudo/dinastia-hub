@@ -10,33 +10,187 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as NoticiasRouteImport } from './routes/noticias'
+import { Route as ServidorRouteImport } from './routes/servidor'
+import { Route as SoporteRouteImport } from './routes/soporte'
+import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
+import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
+import { Route as AuthenticatedStaffActividadRouteImport } from './routes/_authenticated/staff.actividad'
+import { Route as AuthenticatedStaffTicketsRouteImport } from './routes/_authenticated/staff.tickets'
+import { Route as AuthenticatedStaffTicketsIdRouteImport } from './routes/_authenticated/staff.tickets.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoticiasRoute = NoticiasRouteImport.update({
+  id: '/noticias',
+  path: '/noticias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServidorRoute = ServidorRouteImport.update({
+  id: '/servidor',
+  path: '/servidor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SoporteRoute = SoporteRouteImport.update({
+  id: '/soporte',
+  path: '/soporte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedNotificacionesRoute =
+  AuthenticatedNotificacionesRouteImport.update({
+    id: '/notificaciones',
+    path: '/notificaciones',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMisTicketsIndexRoute =
+  AuthenticatedMisTicketsIndexRouteImport.update({
+    id: '/mis-tickets/',
+    path: '/mis-tickets/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMisTicketsIdRoute =
+  AuthenticatedMisTicketsIdRouteImport.update({
+    id: '/mis-tickets/$id',
+    path: '/mis-tickets/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStaffActividadRoute =
+  AuthenticatedStaffActividadRouteImport.update({
+    id: '/staff/actividad',
+    path: '/staff/actividad',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStaffTicketsRoute =
+  AuthenticatedStaffTicketsRouteImport.update({
+    id: '/staff/tickets',
+    path: '/staff/tickets',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStaffTicketsIdRoute =
+  AuthenticatedStaffTicketsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedStaffTicketsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/noticias': typeof NoticiasRoute
+  '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
+  '/staff/actividad': typeof AuthenticatedStaffActividadRoute
+  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
+  '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
+  '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/noticias': typeof NoticiasRoute
+  '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
+  '/staff/actividad': typeof AuthenticatedStaffActividadRoute
+  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
+  '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
+  '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/noticias': typeof NoticiasRoute
+  '/servidor': typeof ServidorRoute
+  '/soporte': typeof SoporteRoute
+  '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
+  '/_authenticated/staff/actividad': typeof AuthenticatedStaffActividadRoute
+  '/_authenticated/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
+  '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
+  '/_authenticated/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/noticias'
+    | '/servidor'
+    | '/soporte'
+    | '/notificaciones'
+    | '/perfil'
+    | '/mis-tickets/$id'
+    | '/staff/actividad'
+    | '/staff/tickets'
+    | '/mis-tickets/'
+    | '/staff/tickets/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/noticias'
+    | '/servidor'
+    | '/soporte'
+    | '/notificaciones'
+    | '/perfil'
+    | '/mis-tickets/$id'
+    | '/staff/actividad'
+    | '/staff/tickets'
+    | '/mis-tickets'
+    | '/staff/tickets/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/noticias'
+    | '/servidor'
+    | '/soporte'
+    | '/_authenticated/notificaciones'
+    | '/_authenticated/perfil'
+    | '/_authenticated/mis-tickets/$id'
+    | '/_authenticated/staff/actividad'
+    | '/_authenticated/staff/tickets'
+    | '/_authenticated/mis-tickets/'
+    | '/_authenticated/staff/tickets/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  NoticiasRoute: typeof NoticiasRoute
+  ServidorRoute: typeof ServidorRoute
+  SoporteRoute: typeof SoporteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +202,135 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/noticias': {
+      id: '/noticias'
+      path: '/noticias'
+      fullPath: '/noticias'
+      preLoaderRoute: typeof NoticiasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servidor': {
+      id: '/servidor'
+      path: '/servidor'
+      fullPath: '/servidor'
+      preLoaderRoute: typeof ServidorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soporte': {
+      id: '/soporte'
+      path: '/soporte'
+      fullPath: '/soporte'
+      preLoaderRoute: typeof SoporteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/notificaciones': {
+      id: '/_authenticated/notificaciones'
+      path: '/notificaciones'
+      fullPath: '/notificaciones'
+      preLoaderRoute: typeof AuthenticatedNotificacionesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mis-tickets/': {
+      id: '/_authenticated/mis-tickets/'
+      path: '/mis-tickets'
+      fullPath: '/mis-tickets/'
+      preLoaderRoute: typeof AuthenticatedMisTicketsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mis-tickets/$id': {
+      id: '/_authenticated/mis-tickets/$id'
+      path: '/mis-tickets/$id'
+      fullPath: '/mis-tickets/$id'
+      preLoaderRoute: typeof AuthenticatedMisTicketsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/actividad': {
+      id: '/_authenticated/staff/actividad'
+      path: '/staff/actividad'
+      fullPath: '/staff/actividad'
+      preLoaderRoute: typeof AuthenticatedStaffActividadRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/tickets': {
+      id: '/_authenticated/staff/tickets'
+      path: '/staff/tickets'
+      fullPath: '/staff/tickets'
+      preLoaderRoute: typeof AuthenticatedStaffTicketsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staff/tickets/$id': {
+      id: '/_authenticated/staff/tickets/$id'
+      path: '/$id'
+      fullPath: '/staff/tickets/$id'
+      preLoaderRoute: typeof AuthenticatedStaffTicketsIdRouteImport
+      parentRoute: typeof AuthenticatedStaffTicketsRoute
+    }
   }
 }
 
+interface AuthenticatedStaffTicketsRouteChildren {
+  AuthenticatedStaffTicketsIdRoute: typeof AuthenticatedStaffTicketsIdRoute
+}
+
+const AuthenticatedStaffTicketsRouteChildren: AuthenticatedStaffTicketsRouteChildren =
+  {
+    AuthenticatedStaffTicketsIdRoute: AuthenticatedStaffTicketsIdRoute,
+  }
+
+const AuthenticatedStaffTicketsRouteWithChildren =
+  AuthenticatedStaffTicketsRoute._addFileChildren(
+    AuthenticatedStaffTicketsRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
+  AuthenticatedStaffActividadRoute: typeof AuthenticatedStaffActividadRoute
+  AuthenticatedStaffTicketsRoute: typeof AuthenticatedStaffTicketsRouteWithChildren
+  AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
+  AuthenticatedStaffActividadRoute: AuthenticatedStaffActividadRoute,
+  AuthenticatedStaffTicketsRoute: AuthenticatedStaffTicketsRouteWithChildren,
+  AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  NoticiasRoute: NoticiasRoute,
+  ServidorRoute: ServidorRoute,
+  SoporteRoute: SoporteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
