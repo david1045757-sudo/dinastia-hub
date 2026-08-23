@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Bell, CheckCheck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNotifications } from "@/hooks/useDinastia";
@@ -22,11 +22,19 @@ export const Route = createFileRoute("/_authenticated/notificaciones")({
 });
 
 function NotificationsPage() {
-  const { notifications, unread, markAllRead, refetch } = useNotifications();
+  const { data, unread, refetch } = useNotifications();
+  const navigate = useNavigate();
+  const notifications = data ?? [];
 
-  async function markRead(id: string) {
-    await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("id", id);
-    refetch();
+  async function open(id: string, link: string | null) {
+    await supabase.from("notifications").update({ read: true }).eq("id", id);
+    void refetch();
+    if (link) void navigate({ to: link });
+  }
+
+  async function markAllRead() {
+    await supabase.from("notifications").update({ read: true }).eq("read", false);
+    void refetch();
   }
 
   return (
@@ -52,45 +60,25 @@ function NotificationsPage() {
           </div>
         )}
 
-        {notifications.map((n) => {
-          const inner = (
-            <>
-              <div className="flex flex-wrap items-center gap-3">
-                {!n.read_at && <span className="h-2 w-2 rounded-full bg-primary" />}
-                <span className="font-medium">{n.title}</span>
-                <span className="ml-auto text-xs text-muted-foreground">
-                  {formatDateTime(n.created_at)}
-                </span>
-              </div>
-              {n.body && <p className="mt-2 text-sm text-muted-foreground">{n.body}</p>}
-            </>
-          );
-
-          const className = `surface-panel block p-5 transition-colors hover:border-primary/40 ${
-            n.read_at ? "opacity-70" : ""
-          }`;
-
-          return n.ticket_id ? (
-            <Link
-              key={n.id}
-              to="/mis-tickets/$id"
-              params={{ id: n.ticket_id }}
-              className={className}
-              onClick={() => void markRead(n.id)}
-            >
-              {inner}
-            </Link>
-          ) : (
-            <button
-              key={n.id}
-              type="button"
-              className={`${className} w-full text-left`}
-              onClick={() => void markRead(n.id)}
-            >
-              {inner}
-            </button>
-          );
-        })}
+        {notifications.map((n) => (
+          <button
+            key={n.id}
+            type="button"
+            onClick={() => void open(n.id, n.link)}
+            className={`surface-panel block w-full p-5 text-left transition-colors hover:border-primary/40 ${
+              n.read ? "opacity-60" : ""
+            }`}
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              {!n.read && <span className="h-2 w-2 rounded-full bg-primary" />}
+              <span className="font-medium">{n.title}</span>
+              <span className="ml-auto text-xs text-muted-foreground">
+                {formatDateTime(n.created_at)}
+              </span>
+            </div>
+            {n.body && <p className="mt-2 text-sm text-muted-foreground">{n.body}</p>}
+          </button>
+        ))}
       </div>
     </div>
   );
