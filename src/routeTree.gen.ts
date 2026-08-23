@@ -16,6 +16,7 @@ import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as ServidorRouteImport } from './routes/servidor'
 import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
 
@@ -54,6 +55,11 @@ const AuthenticatedNotificacionesRoute =
     path: '/notificaciones',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMisTicketsIndexRoute =
   AuthenticatedMisTicketsIndexRouteImport.update({
     id: '/mis-tickets/',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/servidor'
     | '/soporte'
     | '/notificaciones'
+    | '/perfil'
     | '/mis-tickets/$id'
     | '/mis-tickets/'
   fileRoutesByTo: FileRoutesByTo
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/servidor'
     | '/soporte'
     | '/notificaciones'
+    | '/perfil'
     | '/mis-tickets/$id'
     | '/mis-tickets'
   id:
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/servidor'
     | '/soporte'
     | '/_authenticated/notificaciones'
+    | '/_authenticated/perfil'
     | '/_authenticated/mis-tickets/$id'
     | '/_authenticated/mis-tickets/'
   fileRoutesById: FileRoutesById
@@ -193,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNotificacionesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mis-tickets/': {
       id: '/_authenticated/mis-tickets/'
       path: '/mis-tickets'
@@ -212,12 +231,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
   AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
   AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
 }
