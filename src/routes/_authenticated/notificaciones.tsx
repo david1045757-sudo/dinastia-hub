@@ -29,7 +29,7 @@ function NotificationsPage() {
   async function open(id: string, link: string | null) {
     await supabase.from("notifications").update({ read: true }).eq("id", id);
     void refetch();
-    if (link) void navigate({ to: link });
+    if (link) void navigate({ href: link });
   }
 
   async function markAllRead() {
