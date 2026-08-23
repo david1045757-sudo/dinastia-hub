@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as NoticiasRouteImport } from './routes/noticias'
 import { Route as ServidorRouteImport } from './routes/servidor'
 import { Route as SoporteRouteImport } from './routes/soporte'
+import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
 import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
 
@@ -47,6 +48,12 @@ const SoporteRoute = SoporteRouteImport.update({
   path: '/soporte',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedNotificacionesRoute =
+  AuthenticatedNotificacionesRouteImport.update({
+    id: '/notificaciones',
+    path: '/notificaciones',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMisTicketsIndexRoute =
   AuthenticatedMisTicketsIndexRouteImport.update({
     id: '/mis-tickets/',
@@ -66,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/noticias': typeof NoticiasRoute
   '/servidor': typeof ServidorRoute
   '/soporte': typeof SoporteRoute
+  '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
 }
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/noticias'
     | '/servidor'
     | '/soporte'
+    | '/notificaciones'
     | '/mis-tickets/$id'
     | '/mis-tickets/'
   fileRoutesByTo: FileRoutesByTo
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/noticias'
     | '/servidor'
     | '/soporte'
+    | '/notificaciones'
     | '/mis-tickets/$id'
     | '/mis-tickets'
   id:
@@ -116,6 +128,7 @@ export interface FileRouteTypes {
     | '/noticias'
     | '/servidor'
     | '/soporte'
+    | '/_authenticated/notificaciones'
     | '/_authenticated/mis-tickets/$id'
     | '/_authenticated/mis-tickets/'
   fileRoutesById: FileRoutesById
@@ -173,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoporteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/notificaciones': {
+      id: '/_authenticated/notificaciones'
+      path: '/notificaciones'
+      fullPath: '/notificaciones'
+      preLoaderRoute: typeof AuthenticatedNotificacionesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mis-tickets/': {
       id: '/_authenticated/mis-tickets/'
       path: '/mis-tickets'
@@ -191,11 +211,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
   AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
   AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
   AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
   AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
 }
