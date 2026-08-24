@@ -35,7 +35,6 @@ export function SiteHeader() {
   const staffItems: NavItem[] = [];
   if (hasPerm("tickets.view_all")) staffItems.push({ to: "/staff/tickets", label: "Tickets" });
   if (hasPerm("staff.activity")) staffItems.push({ to: "/staff/actividad", label: "Actividad" });
-  if (isStaff) staffItems.push({ to: "/staff/historial", label: "Historial" });
 
   const adminItems: NavItem[] = [];
   if (hasPerm("admin.users")) adminItems.push({ to: "/admin/usuarios", label: "Usuarios" });
@@ -142,7 +141,7 @@ export function SiteHeader() {
                   </DropdownMenuItem>
                   {isStaff && (
                     <DropdownMenuItem asChild>
-                      <Link to="/staff/historial">Mi actividad</Link>
+                      <Link to="/staff/actividad">Mi actividad</Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
