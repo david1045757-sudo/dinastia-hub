@@ -18,6 +18,7 @@ import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedAdminRangosRouteImport } from './routes/_authenticated/admin.rangos'
+import { Route as AuthenticatedAdminServidoresRouteImport } from './routes/_authenticated/admin.servidores'
 import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
 import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
@@ -71,6 +72,12 @@ const AuthenticatedAdminRangosRoute =
     path: '/admin/rangos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminServidoresRoute =
+  AuthenticatedAdminServidoresRouteImport.update({
+    id: '/admin/servidores',
+    path: '/admin/servidores',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminUsuariosRoute =
   AuthenticatedAdminUsuariosRouteImport.update({
     id: '/admin/usuarios',
@@ -117,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/admin/rangos': typeof AuthenticatedAdminRangosRoute
+  '/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/staff/actividad': typeof AuthenticatedStaffActividadRoute
@@ -133,6 +141,7 @@ export interface FileRoutesByTo {
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/admin/rangos': typeof AuthenticatedAdminRangosRoute
+  '/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/staff/actividad': typeof AuthenticatedStaffActividadRoute
@@ -151,6 +160,7 @@ export interface FileRoutesById {
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/admin/rangos': typeof AuthenticatedAdminRangosRoute
+  '/_authenticated/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/_authenticated/staff/actividad': typeof AuthenticatedStaffActividadRoute
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/notificaciones'
     | '/perfil'
     | '/admin/rangos'
+    | '/admin/servidores'
     | '/admin/usuarios'
     | '/mis-tickets/$id'
     | '/staff/actividad'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/notificaciones'
     | '/perfil'
     | '/admin/rangos'
+    | '/admin/servidores'
     | '/admin/usuarios'
     | '/mis-tickets/$id'
     | '/staff/actividad'
@@ -202,6 +214,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notificaciones'
     | '/_authenticated/perfil'
     | '/_authenticated/admin/rangos'
+    | '/_authenticated/admin/servidores'
     | '/_authenticated/admin/usuarios'
     | '/_authenticated/mis-tickets/$id'
     | '/_authenticated/staff/actividad'
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRangosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/servidores': {
+      id: '/_authenticated/admin/servidores'
+      path: '/admin/servidores'
+      fullPath: '/admin/servidores'
+      preLoaderRoute: typeof AuthenticatedAdminServidoresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/usuarios': {
       id: '/_authenticated/admin/usuarios'
       path: '/admin/usuarios'
@@ -347,6 +367,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedAdminRangosRoute: typeof AuthenticatedAdminRangosRoute
+  AuthenticatedAdminServidoresRoute: typeof AuthenticatedAdminServidoresRoute
   AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
   AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
   AuthenticatedStaffActividadRoute: typeof AuthenticatedStaffActividadRoute
@@ -358,6 +379,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedAdminRangosRoute: AuthenticatedAdminRangosRoute,
+  AuthenticatedAdminServidoresRoute: AuthenticatedAdminServidoresRoute,
   AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
   AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
   AuthenticatedStaffActividadRoute: AuthenticatedStaffActividadRoute,
