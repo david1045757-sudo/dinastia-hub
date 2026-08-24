@@ -17,6 +17,7 @@ import { Route as ServidorRouteImport } from './routes/servidor'
 import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as AuthenticatedNotificacionesRouteImport } from './routes/_authenticated/notificaciones'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedAdminNoticiasRouteImport } from './routes/_authenticated/admin.noticias'
 import { Route as AuthenticatedAdminRangosRouteImport } from './routes/_authenticated/admin.rangos'
 import { Route as AuthenticatedAdminServidoresRouteImport } from './routes/_authenticated/admin.servidores'
 import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authenticated/admin.usuarios'
@@ -66,6 +67,12 @@ const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminNoticiasRoute =
+  AuthenticatedAdminNoticiasRouteImport.update({
+    id: '/admin/noticias',
+    path: '/admin/noticias',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminRangosRoute =
   AuthenticatedAdminRangosRouteImport.update({
     id: '/admin/rangos',
@@ -123,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/soporte': typeof SoporteRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/admin/noticias': typeof AuthenticatedAdminNoticiasRoute
   '/admin/rangos': typeof AuthenticatedAdminRangosRoute
   '/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -140,6 +148,7 @@ export interface FileRoutesByTo {
   '/soporte': typeof SoporteRoute
   '/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/admin/noticias': typeof AuthenticatedAdminNoticiasRoute
   '/admin/rangos': typeof AuthenticatedAdminRangosRoute
   '/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -159,6 +168,7 @@ export interface FileRoutesById {
   '/soporte': typeof SoporteRoute
   '/_authenticated/notificaciones': typeof AuthenticatedNotificacionesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/admin/noticias': typeof AuthenticatedAdminNoticiasRoute
   '/_authenticated/admin/rangos': typeof AuthenticatedAdminRangosRoute
   '/_authenticated/admin/servidores': typeof AuthenticatedAdminServidoresRoute
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/soporte'
     | '/notificaciones'
     | '/perfil'
+    | '/admin/noticias'
     | '/admin/rangos'
     | '/admin/servidores'
     | '/admin/usuarios'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/soporte'
     | '/notificaciones'
     | '/perfil'
+    | '/admin/noticias'
     | '/admin/rangos'
     | '/admin/servidores'
     | '/admin/usuarios'
@@ -213,6 +225,7 @@ export interface FileRouteTypes {
     | '/soporte'
     | '/_authenticated/notificaciones'
     | '/_authenticated/perfil'
+    | '/_authenticated/admin/noticias'
     | '/_authenticated/admin/rangos'
     | '/_authenticated/admin/servidores'
     | '/_authenticated/admin/usuarios'
@@ -288,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/perfil'
       fullPath: '/perfil'
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/noticias': {
+      id: '/_authenticated/admin/noticias'
+      path: '/admin/noticias'
+      fullPath: '/admin/noticias'
+      preLoaderRoute: typeof AuthenticatedAdminNoticiasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/rangos': {
@@ -366,6 +386,7 @@ const AuthenticatedStaffTicketsRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedAdminNoticiasRoute: typeof AuthenticatedAdminNoticiasRoute
   AuthenticatedAdminRangosRoute: typeof AuthenticatedAdminRangosRoute
   AuthenticatedAdminServidoresRoute: typeof AuthenticatedAdminServidoresRoute
   AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
@@ -378,6 +399,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacionesRoute: AuthenticatedNotificacionesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedAdminNoticiasRoute: AuthenticatedAdminNoticiasRoute,
   AuthenticatedAdminRangosRoute: AuthenticatedAdminRangosRoute,
   AuthenticatedAdminServidoresRoute: AuthenticatedAdminServidoresRoute,
   AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
