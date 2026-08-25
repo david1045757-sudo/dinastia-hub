@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -123,7 +124,10 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
     invalidateTicket();
   }
 
-  async function patch(values: Record<string, unknown>, successMsg: string) {
+  async function patch(
+    values: Database["public"]["Tables"]["tickets"]["Update"],
+    successMsg: string,
+  ) {
     const { error } = await supabase.from("tickets").update(values).eq("id", ticket.id);
     if (error) {
       toast.error(error.message);
@@ -248,7 +252,7 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
                       {
                         status: v,
                         closed_at: v === "cerrado" ? new Date().toISOString() : null,
-                        closed_by: v === "cerrado" ? user?.id : null,
+                        closed_by: v === "cerrado" ? (user?.id ?? null) : null,
                       },
                       "Estado actualizado",
                     )
@@ -301,7 +305,7 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
                   className="w-full"
                   onClick={() =>
                     void patch(
-                      { claimed_by: user?.id, status: ticket.status === "abierto" ? "en_proceso" : ticket.status },
+                      { claimed_by: user?.id ?? null, status: ticket.status === "abierto" ? "en_proceso" : ticket.status },
                       "Ticket reclamado",
                     )
                   }
