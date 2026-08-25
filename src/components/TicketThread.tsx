@@ -252,7 +252,7 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
                       {
                         status: v,
                         closed_at: v === "cerrado" ? new Date().toISOString() : null,
-                        closed_by: v === "cerrado" ? user?.id : null,
+                        closed_by: v === "cerrado" ? (user?.id ?? null) : null,
                       },
                       "Estado actualizado",
                     )
@@ -305,7 +305,7 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
                   className="w-full"
                   onClick={() =>
                     void patch(
-                      { claimed_by: user?.id, status: ticket.status === "abierto" ? "en_proceso" : ticket.status },
+                      { claimed_by: user?.id ?? null, status: ticket.status === "abierto" ? "en_proceso" : ticket.status },
                       "Ticket reclamado",
                     )
                   }
