@@ -27,6 +27,7 @@ import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authent
 import { Route as AuthenticatedStaffActividadRouteImport } from './routes/_authenticated/staff.actividad'
 import { Route as AuthenticatedStaffTicketsRouteImport } from './routes/_authenticated/staff.tickets'
 import { Route as AuthenticatedStaffTicketsIdRouteImport } from './routes/_authenticated/staff.tickets.$id'
+import { Route as ApiPublicMtaHeartbeatRouteImport } from './routes/api/public/mta/heartbeat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -127,6 +128,11 @@ const AuthenticatedStaffTicketsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedStaffTicketsRoute,
   } as any)
+const ApiPublicMtaHeartbeatRoute = ApiPublicMtaHeartbeatRouteImport.update({
+  id: '/api/public/mta/heartbeat',
+  path: '/api/public/mta/heartbeat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
   '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
+  '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
   '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
+  '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/_authenticated/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
   '/_authenticated/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
+  '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/staff/tickets'
     | '/mis-tickets/'
     | '/staff/tickets/$id'
+    | '/api/public/mta/heartbeat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/staff/tickets'
     | '/mis-tickets'
     | '/staff/tickets/$id'
+    | '/api/public/mta/heartbeat'
   id:
     | '__root__'
     | '/'
@@ -246,6 +257,7 @@ export interface FileRouteTypes {
     | '/_authenticated/staff/tickets'
     | '/_authenticated/mis-tickets/'
     | '/_authenticated/staff/tickets/$id'
+    | '/api/public/mta/heartbeat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -255,6 +267,7 @@ export interface RootRouteChildren {
   NoticiasRoute: typeof NoticiasRoute
   ServidorRoute: typeof ServidorRoute
   SoporteRoute: typeof SoporteRoute
+  ApiPublicMtaHeartbeatRoute: typeof ApiPublicMtaHeartbeatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -385,6 +398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffTicketsIdRouteImport
       parentRoute: typeof AuthenticatedStaffTicketsRoute
     }
+    '/api/public/mta/heartbeat': {
+      id: '/api/public/mta/heartbeat'
+      path: '/api/public/mta/heartbeat'
+      fullPath: '/api/public/mta/heartbeat'
+      preLoaderRoute: typeof ApiPublicMtaHeartbeatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   NoticiasRoute: NoticiasRoute,
   ServidorRoute: ServidorRoute,
   SoporteRoute: SoporteRoute,
+  ApiPublicMtaHeartbeatRoute: ApiPublicMtaHeartbeatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
