@@ -31,7 +31,7 @@ function AdminServers() {
   const { data: servers } = useServers();
   const queryClient = useQueryClient();
 
-  async function update(id: string, values: Record<string, unknown>) {
+  async function update(id: string, values: Database["public"]["Tables"]["servers"]["Update"]) {
     const { error } = await supabase.from("servers").update(values).eq("id", id);
     if (error) {
       toast.error(error.message);

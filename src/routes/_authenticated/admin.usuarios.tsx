@@ -116,7 +116,7 @@ function AdminUsers() {
                 <td className="px-5 py-3 text-muted-foreground">{formatDate(u.created_at)}</td>
                 <td className="px-5 py-3">
                   <Select
-                    value={u.rank_id ?? undefined}
+                    {...(u.rank_id ? { value: u.rank_id } : {})}
                     onValueChange={(v) => void changeRank(u.id, v)}
                   >
                     <SelectTrigger className="w-52">

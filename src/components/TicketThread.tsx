@@ -123,7 +123,10 @@ export function TicketThread({ ticket, backLink }: { ticket: TicketRow; backLink
     invalidateTicket();
   }
 
-  async function patch(values: Record<string, unknown>, successMsg: string) {
+  async function patch(
+    values: Database["public"]["Tables"]["tickets"]["Update"],
+    successMsg: string,
+  ) {
     const { error } = await supabase.from("tickets").update(values).eq("id", ticket.id);
     if (error) {
       toast.error(error.message);
