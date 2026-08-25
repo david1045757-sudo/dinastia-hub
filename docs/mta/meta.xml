@@ -1,0 +1,5 @@
+<meta>
+    <info author="DINASTIA RP" type="script" name="dinastia_web" description="Sincroniza el estado del servidor MTA con la plataforma web DINASTIA RP" />
+    <script src="dinastia_web.lua" type="server" />
+    <min_mta_version client="1.6.0" server="1.6.0" />
+</meta>
