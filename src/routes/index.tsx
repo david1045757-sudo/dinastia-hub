@@ -1,6 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, LifeBuoy, Newspaper, Server } from "lucide-react";
-import { usePrimaryServer, useNews } from "@/hooks/useDinastia";
+import { useNews } from "@/hooks/useDinastia";
+import { useEffect, useState } from "react";
+import {
+  getMtaServerStatus,
+  type MtaServerStatus,
+} from "@/lib/mtaApi";
 import { useAuth } from "@/lib/auth";
 import { ServerBadges, PlayerCount } from "@/components/ServerStatus";
 import { Button } from "@/components/ui/button";
