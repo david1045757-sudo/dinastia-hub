@@ -7,7 +7,7 @@ import { TicketStatusBadge } from "@/components/TicketStatusBadge";
 import { Button } from "@/components/ui/button";
 import { CATEGORIES, STATUS_LABEL, TICKET_STATUSES, formatDateTime } from "@/lib/dinastia";
 
-export const Route = createFileRoute("/_authenticated/staff/tickets")({
+export const Route = createFileRoute("/_authenticated/staff/tickets/")({
   head: () => ({
     meta: [
       { title: "Bandeja de soporte — DINASTIA RP" },

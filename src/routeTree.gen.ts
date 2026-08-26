@@ -25,7 +25,7 @@ import { Route as AuthenticatedAdminUsuariosRouteImport } from './routes/_authen
 import { Route as AuthenticatedMisTicketsIndexRouteImport } from './routes/_authenticated/mis-tickets.index'
 import { Route as AuthenticatedMisTicketsIdRouteImport } from './routes/_authenticated/mis-tickets.$id'
 import { Route as AuthenticatedStaffActividadRouteImport } from './routes/_authenticated/staff.actividad'
-import { Route as AuthenticatedStaffTicketsRouteImport } from './routes/_authenticated/staff.tickets'
+import { Route as AuthenticatedStaffTicketsIndexRouteImport } from './routes/_authenticated/staff.tickets.index'
 import { Route as AuthenticatedStaffTicketsIdRouteImport } from './routes/_authenticated/staff.tickets.$id'
 import { Route as ApiPublicMtaHeartbeatRouteImport } from './routes/api/public/mta/heartbeat'
 
@@ -116,17 +116,17 @@ const AuthenticatedStaffActividadRoute =
     path: '/staff/actividad',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedStaffTicketsRoute =
-  AuthenticatedStaffTicketsRouteImport.update({
-    id: '/staff/tickets',
-    path: '/staff/tickets',
+const AuthenticatedStaffTicketsIndexRoute =
+  AuthenticatedStaffTicketsIndexRouteImport.update({
+    id: '/staff/tickets/',
+    path: '/staff/tickets/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedStaffTicketsIdRoute =
   AuthenticatedStaffTicketsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
-    getParentRoute: () => AuthenticatedStaffTicketsRoute,
+    id: '/staff/tickets/$id',
+    path: '/staff/tickets/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const ApiPublicMtaHeartbeatRoute = ApiPublicMtaHeartbeatRouteImport.update({
   id: '/api/public/mta/heartbeat',
@@ -149,10 +149,10 @@ export interface FileRoutesByFullPath {
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/staff/actividad': typeof AuthenticatedStaffActividadRoute
-  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
   '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
   '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
+  '/staff/tickets/': typeof AuthenticatedStaffTicketsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -169,10 +169,10 @@ export interface FileRoutesByTo {
   '/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/staff/actividad': typeof AuthenticatedStaffActividadRoute
-  '/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/mis-tickets': typeof AuthenticatedMisTicketsIndexRoute
   '/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
   '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
+  '/staff/tickets': typeof AuthenticatedStaffTicketsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -191,10 +191,10 @@ export interface FileRoutesById {
   '/_authenticated/admin/usuarios': typeof AuthenticatedAdminUsuariosRoute
   '/_authenticated/mis-tickets/$id': typeof AuthenticatedMisTicketsIdRoute
   '/_authenticated/staff/actividad': typeof AuthenticatedStaffActividadRoute
-  '/_authenticated/staff/tickets': typeof AuthenticatedStaffTicketsRouteWithChildren
   '/_authenticated/mis-tickets/': typeof AuthenticatedMisTicketsIndexRoute
   '/_authenticated/staff/tickets/$id': typeof AuthenticatedStaffTicketsIdRoute
   '/api/public/mta/heartbeat': typeof ApiPublicMtaHeartbeatRoute
+  '/_authenticated/staff/tickets/': typeof AuthenticatedStaffTicketsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -213,10 +213,10 @@ export interface FileRouteTypes {
     | '/admin/usuarios'
     | '/mis-tickets/$id'
     | '/staff/actividad'
-    | '/staff/tickets'
     | '/mis-tickets/'
     | '/staff/tickets/$id'
     | '/api/public/mta/heartbeat'
+    | '/staff/tickets/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -233,10 +233,10 @@ export interface FileRouteTypes {
     | '/admin/usuarios'
     | '/mis-tickets/$id'
     | '/staff/actividad'
-    | '/staff/tickets'
     | '/mis-tickets'
     | '/staff/tickets/$id'
     | '/api/public/mta/heartbeat'
+    | '/staff/tickets'
   id:
     | '__root__'
     | '/'
@@ -254,10 +254,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/usuarios'
     | '/_authenticated/mis-tickets/$id'
     | '/_authenticated/staff/actividad'
-    | '/_authenticated/staff/tickets'
     | '/_authenticated/mis-tickets/'
     | '/_authenticated/staff/tickets/$id'
     | '/api/public/mta/heartbeat'
+    | '/_authenticated/staff/tickets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -384,19 +384,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffActividadRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/staff/tickets': {
-      id: '/_authenticated/staff/tickets'
+    '/_authenticated/staff/tickets/': {
+      id: '/_authenticated/staff/tickets/'
       path: '/staff/tickets'
-      fullPath: '/staff/tickets'
-      preLoaderRoute: typeof AuthenticatedStaffTicketsRouteImport
+      fullPath: '/staff/tickets/'
+      preLoaderRoute: typeof AuthenticatedStaffTicketsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/staff/tickets/$id': {
       id: '/_authenticated/staff/tickets/$id'
-      path: '/$id'
+      path: '/staff/tickets/$id'
       fullPath: '/staff/tickets/$id'
       preLoaderRoute: typeof AuthenticatedStaffTicketsIdRouteImport
-      parentRoute: typeof AuthenticatedStaffTicketsRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/public/mta/heartbeat': {
       id: '/api/public/mta/heartbeat'
@@ -408,20 +408,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthenticatedStaffTicketsRouteChildren {
-  AuthenticatedStaffTicketsIdRoute: typeof AuthenticatedStaffTicketsIdRoute
-}
-
-const AuthenticatedStaffTicketsRouteChildren: AuthenticatedStaffTicketsRouteChildren =
-  {
-    AuthenticatedStaffTicketsIdRoute: AuthenticatedStaffTicketsIdRoute,
-  }
-
-const AuthenticatedStaffTicketsRouteWithChildren =
-  AuthenticatedStaffTicketsRoute._addFileChildren(
-    AuthenticatedStaffTicketsRouteChildren,
-  )
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacionesRoute: typeof AuthenticatedNotificacionesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
@@ -432,8 +418,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminUsuariosRoute: typeof AuthenticatedAdminUsuariosRoute
   AuthenticatedMisTicketsIdRoute: typeof AuthenticatedMisTicketsIdRoute
   AuthenticatedStaffActividadRoute: typeof AuthenticatedStaffActividadRoute
-  AuthenticatedStaffTicketsRoute: typeof AuthenticatedStaffTicketsRouteWithChildren
   AuthenticatedMisTicketsIndexRoute: typeof AuthenticatedMisTicketsIndexRoute
+  AuthenticatedStaffTicketsIdRoute: typeof AuthenticatedStaffTicketsIdRoute
+  AuthenticatedStaffTicketsIndexRoute: typeof AuthenticatedStaffTicketsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -446,8 +433,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminUsuariosRoute: AuthenticatedAdminUsuariosRoute,
   AuthenticatedMisTicketsIdRoute: AuthenticatedMisTicketsIdRoute,
   AuthenticatedStaffActividadRoute: AuthenticatedStaffActividadRoute,
-  AuthenticatedStaffTicketsRoute: AuthenticatedStaffTicketsRouteWithChildren,
   AuthenticatedMisTicketsIndexRoute: AuthenticatedMisTicketsIndexRoute,
+  AuthenticatedStaffTicketsIdRoute: AuthenticatedStaffTicketsIdRoute,
+  AuthenticatedStaffTicketsIndexRoute: AuthenticatedStaffTicketsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
