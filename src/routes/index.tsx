@@ -90,9 +90,9 @@ function Home() {
     );
   }
 
-  const online =
-    server.online === true &&
-    (server.is_open === true || server.is_open === 1);
+  // "online" representa que el servidor MTA está activo.
+  // "is_open" es un estado independiente: puede estar online pero cerrado.
+  const online = server.online === true;
 
   return (
     <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
