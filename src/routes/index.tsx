@@ -9,7 +9,7 @@ import {
 import { useAuth } from "@/lib/auth";
 import { ServerBadges, PlayerCount } from "@/components/ServerStatus";
 import { Button } from "@/components/ui/button";
-import { formatDate, serverIsOnline } from "@/lib/dinastia";
+import { formatDate } from "@/lib/dinastia";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,10 +31,43 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { server } = usePrimaryServer();
-  const { data: news } = useNews(3);
-  const { user } = useAuth();
-  const online = serverIsOnline(server?.last_heartbeat);
+const [server, setServer] = useState<MtaServerStatus | null>(null);
+const [apiError, setApiError] = useState(false);
+
+const { data: news } = useNews(3);
+const { user } = useAuth();
+
+useEffect(() => {
+  let mounted = true;
+
+  const loadServer = async () => {
+    try {
+      const data = await getMtaServerStatus();
+
+      if (mounted) {
+        setServer(data);
+        setApiError(false);
+      }
+    } catch (error) {
+      console.error("[DINASTIA] Error consultando MTA:", error);
+
+      if (mounted) {
+        setApiError(true);
+      }
+    }
+  };
+
+  loadServer();
+
+  const interval = setInterval(loadServer, 30000);
+
+  return () => {
+    mounted = false;
+    clearInterval(interval);
+  };
+}, []);
+
+const online = server?.online === true;
 
   return (
     <div>
